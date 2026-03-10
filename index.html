@@ -20,26 +20,14 @@
 			</header>
 
 		<!-- Signup Form -->
-			<!--
-				FORMSPREE SETUP — 3 easy steps:
-				1. Go to https://formspree.io and create a free account
-				2. Create a new form — Formspree will give you a URL like:
-				   https://formspree.io/f/YOUR_FORM_ID
-				3. Replace "YOUR_FORM_ID" in the action below with your actual ID
-			-->
-			<form id="signup-form" method="post" action="https://formspree.io/f/xojkejgb">
+			<form id="signup-form">
 				<input type="email" name="email" id="email" placeholder="Email Address" required />
-
 				<!-- Honeypot field: hidden from humans, catches bots -->
 				<input type="text" name="_gotcha" style="display:none" />
-
-				<!-- After submission, send users back to your site -->
-				<input type="hidden" name="_next" value="https://draoicht.ie/?thanks=true" />
-
 				<input type="submit" value="Sign Up" />
 			</form>
 
-			<!-- Thank-you message (shown after redirect back) -->
+			<!-- Thank-you message (shown after successful AJAX submission) -->
 			<div id="thanks-message" style="display:none; color: white; margin-top: 1em;">
 				🎮 You're on the list — we'll be in touch!
 			</div>
@@ -60,12 +48,29 @@
 		<!-- Scripts -->
 			<script src="assets/js/main.js"></script>
 
-			<!-- Show thank-you message if redirected back after signup -->
+			<!-- AJAX form submission — stays on page, no Formspree redirect -->
 			<script>
-				if (window.location.search.includes('thanks=true')) {
-					document.getElementById('thanks-message').style.display = 'block';
-					document.getElementById('signup-form').style.display = 'none';
-				}
+				var form = document.getElementById('signup-form');
+				form.addEventListener('submit', function(e) {
+					e.preventDefault();
+					var data = new FormData(form);
+					fetch('https://formspree.io/f/xojkejgb', {
+						method: 'POST',
+						body: data,
+						headers: { 'Accept': 'application/json' }
+					})
+					.then(function(response) {
+						if (response.ok) {
+							form.style.display = 'none';
+							document.getElementById('thanks-message').style.display = 'block';
+						} else {
+							alert('Oops! Something went wrong. Please try again.');
+						}
+					})
+					.catch(function() {
+						alert('Oops! Something went wrong. Please try again.');
+					});
+				});
 			</script>
 	</body>
 </html>
