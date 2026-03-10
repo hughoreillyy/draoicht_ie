@@ -12,19 +12,29 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
-
 		<!-- Header -->
 			<header id="header">
 				<h1>Draoicht Studios</h1>
-				<p>An independent game developer based in Wicklow, Ireland,<br />
-				coming soon... <a href="http://html5up.net">HTML5 UP</a>.</p>
+				<p>An independent game developer based in Wicklow, Ireland.<br />
+				Coming soon...</p>
 			</header>
 
-		<!-- Signup Form -->
-			<form id="signup-form" method="post" action="#">
-				<input type="email" name="email" id="email" placeholder="Email Address" />
+			<form id="signup-form" method="post" action="https://formspree.io/f/xojkejgb">
+				<input type="email" name="email" id="email" placeholder="Email Address" required />
+
+				<!-- Honeypot field: hidden from humans, catches bots -->
+				<input type="text" name="_gotcha" style="display:none" />
+
+				<!-- After submission, send users back to your site -->
+				<input type="hidden" name="_next" value="https:https://draoicht.ie/" />
+
 				<input type="submit" value="Sign Up" />
 			</form>
+
+			<!-- Thank-you message (shown after redirect back) -->
+			<div id="thanks-message" style="display:none; color: white; margin-top: 1em;">
+				🎮 You're on the list — we'll be in touch!
+			</div>
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -35,13 +45,19 @@
 					<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
 				</ul>
 				<ul class="copyright">
-					<li>&copy; Untitled.</li><li>Credits: <a href="http://html5up.net">HTML5 UP</a></li>
+					<li>&copy; Draoicht Studios.</li><li>Credits: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/main.js"></script>
 
+			<!-- Show thank-you message if redirected back after signup -->
+			<script>
+				if (window.location.search.includes('thanks=true')) {
+					document.getElementById('thanks-message').style.display = 'block';
+					document.getElementById('signup-form').style.display = 'none';
+				}
+			</script>
 	</body>
-
 </html>
